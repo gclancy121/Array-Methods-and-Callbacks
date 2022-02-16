@@ -4,16 +4,27 @@ const { fifaData } = require('./fifa.js')
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 1: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Practice accessing data by console.log-ing the following pieces of data note, you may want to filter the data first 😉*/
+const homeTeam = fifaData.filter((match) => {
+    return match.Stage==='Final' && match.Year===2014; 
+})
+
+
 
 //(a) Home Team name for 2014 world cup final
+console.log('task 1.1', homeTeam[0]['Home Team Name']);
+
 
 //(b) Away Team name for 2014 world cup final
+console.log('task 1.2', homeTeam[0]['Away Team Name']);
 
 //(c) Home Team goals for 2014 world cup final
+console.log('task 1.3', homeTeam[0]['Home Team Goals']);
 
 //(d) Away Team goals for 2014 world cup final
+console.log('task 1.4', homeTeam[0]['Away Team Goals']);
 
 //(e) Winner of 2014 world cup final */
+console.log('task 1.5', homeTeam[0]['Win conditions']);
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 2: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
@@ -24,11 +35,16 @@ Use getFinals to do the following:
 hint - you should be looking at the stage key inside of the objects
 */
 
-function getFinals(/* code here */) {
-   /* code here */
+function getFinals(data) {
+    const finalStages=data.filter((match) => {
+        return match.Stage==='Final';
+    }) 
+    return finalStages;
 }
+  
 
 
+console.log('task 2', getFinals(fifaData));
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 3: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Use the higher-order function called getYears to do the following: 
@@ -36,10 +52,12 @@ Use the higher-order function called getYears to do the following:
 2. Receive a callback function getFinals from task 2 
 3. Return an array called years containing all of the years in the getFinals data set*/
 
-function getYears(/* code here */) {
-    /* code here */
+function getYears(array) {
+    let year=[];
+    year.push(getFinals(array).Year);
+    return year;
 }
-
+console.log('task 3', getYears(fifaData));
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 4: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
