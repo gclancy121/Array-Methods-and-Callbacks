@@ -52,12 +52,14 @@ Use the higher-order function called getYears to do the following:
 2. Receive a callback function getFinals from task 2 
 3. Return an array called years containing all of the years in the getFinals data set*/
 
-function getYears(array) {
-    let year=[];
-    year.push(getFinals(array).Year);
-    return year;
+function getYears(array,callback) {
+    const finalsYears = callback(array);
+    const yearsFilter = finalsYears.map((match) => {
+        return match.Year;
+    })
+    return yearsFilter;
 }
-console.log('task 3', getYears(fifaData));
+console.log('task 3', getYears(fifaData,getFinals));
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 4: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
@@ -67,10 +69,19 @@ Use the higher-order function getWinners to do the following:
 3. Determines the winner (home or away) of each `finals` game. 
 4. Returns the names of all winning countries in an array called `winners` */ 
 
-function getWinners(/* code here */) {
-    /* code here */
+function getWinners(array,callback) {
+   const callbackArray=callback(array);
+    const victors = callbackArray.map((match) =>  {
+        if (match["Home Team Goals"] > match["Away Team Goals"]) {
+            return match['Home Team Name']
+        } else {
+            return match['Away Team Name']
+        }
+    })
+    return victors;
 }
 
+console.log('task 4', getWinners(fifaData,getFinals));
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 5: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
@@ -84,11 +95,13 @@ Use the higher-order function getWinnersByYear to do the following:
 hint: the strings returned need to exactly match the string in step 4.
  */
 
-function getWinnersByYear(/* code here */) {
-    /* code here */
+function getWinnersByYear(array,callbackFinals, callbackYears, callbackWinners) {
+    const winners = callbackWinners(array, callbackFinals);
+    const years = callbackYears(array,callbackFinals);
+    return winners.map((item, index) => {return `In ${years[index]}, ${item} won the world cup!`});
 }
 
-
+console.log('task 4',getWinnersByYear(fifaData,getFinals,getYears,getWinners));
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 6: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Use the higher order function getAverageGoals to do the following: 
@@ -100,9 +113,14 @@ Use the higher order function getAverageGoals to do the following:
  Example of invocation: getAverageGoals(getFinals(fifaData));
 */
 
-function getAverageGoals(/* code here */) {
-   /* code here */
-}
+function getAverageGoals(callbackFinals) {
+   const averageGoals=callbackFinals.reduce((goals, index) => {
+   return goals+index['Home Team Goals'] + index['Away Team Goals'];
+},0
+   ) 
+   return (averageGoals/callbackFinals.length).toFixed(2);
+};
+console.log('task 6', getAverageGoals(getFinals(fifaData)));
 
 
 
